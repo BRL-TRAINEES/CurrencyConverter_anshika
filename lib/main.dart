@@ -19,24 +19,18 @@ class currencyApp extends StatelessWidget {
   }
 }
 
-Future<void>getData() async {
-  final response = await http.get(Uri.parse(
-      'https://v6.exchangerate-api.com/v6/71478dfdd9bb2533b494ba46/latest/USD'));
 
-  if (response.statusCode == 200) {
-    final data = json.decode(response.body);
-    final finalData = data['conversion_rates'];
-    print(finalData);
-  } else {
-    throw Exception('Error occured!');
-  }
-}
 
 class Converter extends ConsumerWidget{  // with consumerWidget we dont need to use setState since its give us ref that watch the current changes 
   const Converter({super.key});
 
   @override
   Widget build(BuildContext context,WidgetRef ref) {
+    final TextEditingController amount = TextEditingController();
+    String fromCurrency = 'INR';
+    String toCurrency = 'USD';
+    String conversionResult =''
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Currency Converter'),
