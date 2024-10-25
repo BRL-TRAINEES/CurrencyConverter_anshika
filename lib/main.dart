@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class CurrencyConverter extends ConsumerWidget {
+  // now this consumerWidget allows this widget to react to change in riverpod providers
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final exchangeRates = ref.watch(exchangeRatesProvider);
@@ -43,10 +44,13 @@ class CurrencyConverter extends ConsumerWidget {
           child: Column(
             children: [
               TextField(
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.money_off_outlined),
-                    prefixIconColor: const Color.fromARGB(255, 52, 233, 206),
-                    labelText: 'Amount (INR)'),
+                  prefixIcon: Icon(Icons.money_off_outlined),
+                  prefixIconColor: const Color.fromARGB(255, 52, 233, 206),
+                  labelText: 'Amount (INR)',
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   ref.read(amountProvider.notifier).state =
