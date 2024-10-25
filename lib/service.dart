@@ -1,17 +1,21 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class CurrencyService {
-  Future<Map<String, dynamic>> getData() async {
-    final response = await http.get(Uri.parse(
-        'https://v6.exchangerate-api.com/v6/71478dfdd9bb2533b494ba46/latest/INR'));
+class ApiService {
+  static String baseUrl = dotenv.env['apikey'] ?? '';
+
+  Future<Map<String, dynamic>> getExchangeRates() async {
+    final response = await http.get(Uri.parse(baseUrl));
 
     if (response.statusCode == 200) {
-      final finalData = json.decode(response.body);
-      print(finalData);
-      return finalData;
+      return json.decode(response.body);
     } else {
-      throw Exception('Error occured!');
+      throw Exception('Failed to load exchange rates');
     }
   }
 }
+
+// Provider to create an instance of ApiService
+final apiServiceProvider = Provider((ref) => ApiService());
